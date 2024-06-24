@@ -43,15 +43,35 @@ namespace WEBAplicacionDeGestionDeCitasMedicas.Controllers
             return View(paciente);
         }
 
-        // GET: Pacientes/Create
+        //// GET: Pacientes/Create
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
+
+        //// POST: Pacientes/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Birthday,Genre,Address,Name,Phone")] Paciente paciente)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(paciente);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(paciente);
+        //}
+
         public IActionResult Create()
         {
+            ViewBag.Genres = new SelectList(Enum.GetValues(typeof(TipoGenero)));
             return View();
         }
 
         // POST: Pacientes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Birthday,Genre,Address,Name,Phone")] Paciente paciente)
@@ -62,6 +82,7 @@ namespace WEBAplicacionDeGestionDeCitasMedicas.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Genres = new SelectList(Enum.GetValues(typeof(TipoGenero))); // Reenviar la lista si hay un error
             return View(paciente);
         }
 

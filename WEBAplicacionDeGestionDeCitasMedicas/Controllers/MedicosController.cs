@@ -25,33 +25,53 @@ namespace WEBAplicacionDeGestionDeCitasMedicas.Controllers
             return View(await _context.Medico.ToListAsync());
         }
 
-        // GET: Medicos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: Medicos/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var medico = await _context.Medico
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (medico == null)
-            {
-                return NotFound();
-            }
+        //    var medico = await _context.Medico
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (medico == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(medico);
-        }
+        //    return View(medico);
+        //}
 
-        // GET: Medicos/Create
+        //// GET: Medicos/Create
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
+
+        //// POST: Medicos/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Id,Name,Speciality,Schedule")] Medico medico)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(medico);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(medico);
+        //}
+
         public IActionResult Create()
         {
+            ViewBag.Specialities = new SelectList(Enum.GetValues(typeof(TipoEspecialidad)).Cast<TipoEspecialidad>().Select(e => new SelectListItem { Value = e.ToString(), Text = e.ToString() }), "Value", "Text");
             return View();
         }
 
         // POST: Medicos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Speciality,Schedule")] Medico medico)
@@ -62,8 +82,10 @@ namespace WEBAplicacionDeGestionDeCitasMedicas.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Specialities = new SelectList(Enum.GetValues(typeof(TipoEspecialidad)).Cast<TipoEspecialidad>().Select(e => new SelectListItem { Value = e.ToString(), Text = e.ToString() }), "Value", "Text");
             return View(medico);
         }
+
 
         // GET: Medicos/Edit/5
         public async Task<IActionResult> Edit(int? id)
